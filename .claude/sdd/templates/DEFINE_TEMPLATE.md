@@ -87,6 +87,24 @@ Explicitly NOT included in this feature:
 
 ---
 
+## Technical Context
+
+> Essential context for Design phase - prevents misplaced files and missed infrastructure needs.
+
+| Aspect | Value | Notes |
+|--------|-------|-------|
+| **Deployment Location** | {src/ \| functions/ \| gen/ \| deploy/ \| custom path} | {Why this location} |
+| **KB Domains** | {pydantic, gcp, gemini, langfuse, terraform, crewai, openrouter} | {Which patterns to consult} |
+| **IaC Impact** | {New resources \| Modify existing \| None \| TBD} | {Terraform/Terragrunt changes needed} |
+
+**Why This Matters:**
+
+- **Location** → Design phase uses correct project structure, prevents misplaced files
+- **KB Domains** → Design phase pulls correct patterns from `.claude/kb/`
+- **IaC Impact** → Triggers infrastructure planning, avoids "works locally" failures
+
+---
+
 ## Assumptions
 
 Assumptions that if wrong could invalidate the design:

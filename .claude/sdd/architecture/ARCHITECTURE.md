@@ -1,6 +1,6 @@
-# AgentSpec 4.1 Architecture
+# AgentSpec 4.2 Architecture
 
-> Visual reference for the 5-phase development workflow (with optional Brainstorm)
+> Visual reference for the 5-phase development workflow with Agent Matching and Delegation
 
 ---
 
@@ -394,6 +394,7 @@
 ## Version History
 
 | Version | Date | Changes |
-|---------|------|---------|
+| ------- | ---- | ------- |
+| 4.2.0 | 2026-01-29 | Added Agent Matching (Design) + Agent Delegation (Build) |
 | 4.1.0 | 2026-01-27 | Added Phase 0: Brainstorm (optional exploratory phase) |
 | 4.0.0 | 2026-01-25 | Complete rewrite for 4-phase model |

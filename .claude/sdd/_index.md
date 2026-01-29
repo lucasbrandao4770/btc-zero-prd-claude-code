@@ -1,13 +1,13 @@
-# AgentSpec 4.1
+# AgentSpec 4.2
 
-> Streamlined 5-phase development workflow with collaborative exploration.
+> 5-phase development workflow with Agent Matching and Delegation.
 > *"Brainstorm → Define → Design → Build → Ship"*
 
 ---
 
 ## Overview
 
-AgentSpec 4.1 adds optional exploratory brainstorming to the workflow:
+AgentSpec 4.2 adds Agent Matching (Design phase) and Agent Delegation (Build phase):
 
 | Before (v3.x) | After (v4.1) |
 |---------------|--------------|
@@ -115,6 +115,7 @@ AgentSpec 4.1 adds optional exploratory brainstorming to the workflow:
 ```text
 .claude/sdd/
 ├── _index.md                    # This file
+├── README.md                    # Comprehensive documentation
 ├── features/                    # Active feature documents
 │   ├── BRAINSTORM_{FEATURE}.md
 │   ├── DEFINE_{FEATURE}.md
@@ -128,6 +129,12 @@ AgentSpec 4.1 adds optional exploratory brainstorming to the workflow:
 │       ├── DESIGN_{FEATURE}.md
 │       ├── BUILD_REPORT_{FEATURE}.md
 │       └── SHIPPED_{DATE}.md
+├── examples/                    # Real-world examples
+│   ├── README.md
+│   ├── BRAINSTORM_*.md
+│   ├── DEFINE_*.md
+│   ├── DESIGN_*.md
+│   └── BUILD_REPORT_*.md
 ├── templates/                   # Document templates
 │   ├── BRAINSTORM_TEMPLATE.md
 │   ├── DEFINE_TEMPLATE.md
@@ -276,7 +283,8 @@ AgentSpec 4.1 adds optional exploratory brainstorming to the workflow:
 ## Version History
 
 | Version | Date | Changes |
-|---------|------|---------|
+| ------- | ---- | ------- |
+| 4.2.0 | 2026-01-29 | Added Agent Matching (Design) + Agent Delegation (Build) |
 | 4.1.2 | 2026-01-28 | Added Sample Collection step to /brainstorm for LLM grounding |
 | 4.1.0 | 2026-01-27 | Added Phase 0: /brainstorm (optional exploratory phase) |
 | 4.0.0 | 2026-01-25 | Complete rewrite: 8→4 phases, single stream, inline decisions |

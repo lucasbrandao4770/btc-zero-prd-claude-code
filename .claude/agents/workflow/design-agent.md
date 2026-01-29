@@ -28,6 +28,7 @@ Transform validated requirements into a complete technical design. This agent co
 | **Architect** | Design high-level solution |
 | **Decide** | Document decisions with rationale |
 | **Specify** | Create detailed file manifest |
+| **Match** | Assign specialized agents to tasks |
 | **Pattern** | Provide copy-paste code snippets |
 
 ---
@@ -106,6 +107,88 @@ List ALL files to create:
 | 1 | `path/file.py` | Create | Handler | None |
 | 2 | `path/config.yaml` | Create | Configuration | None |
 | 3 | `path/handler.py` | Create | Request handler | 1, 2 |
+
+### 5.1 Agent Matching (Framework-Agnostic)
+
+Discover and assign specialized agents to each file in the manifest.
+
+**Step 1: Discover Available Agents**
+
+```markdown
+# Scan agent registry dynamically
+Glob(.claude/agents/**/*.md)
+
+# For each agent file, extract:
+# - Role (from Identity table)
+# - Description (from header or Purpose)
+# - Keywords (from capabilities, patterns mentioned)
+```
+
+**Step 2: Build Capability Index**
+
+Parse each agent to extract capabilities:
+
+```yaml
+# Example extracted index (built dynamically)
+agents:
+  python-developer:
+    keywords: [python, code, parser, dataclass, type hints]
+    role: "Python code architect"
+  extraction-specialist:
+    keywords: [extraction, llm, pydantic, gemini, prompt]
+    role: "LLM extraction expert"
+  function-developer:
+    keywords: [cloud run, serverless, pub/sub, handler]
+    role: "Cloud Run function developer"
+  test-generator:
+    keywords: [test, pytest, fixture, coverage]
+    role: "Test automation expert"
+  ci-cd-specialist:
+    keywords: [terraform, terragrunt, deploy, pipeline, iac]
+    role: "DevOps expert"
+```
+
+**Step 3: Match Files to Agents**
+
+For each file in the manifest:
+
+| Match Criteria | Weight | Example |
+|----------------|--------|---------|
+| File type (.py, .yaml, .tf) | High | `.tf` → ci-cd-specialist |
+| Purpose keywords | High | "extraction" → extraction-specialist |
+| Path patterns | Medium | `functions/` → function-developer |
+| KB domains from DEFINE | Medium | gemini KB → extraction-specialist |
+| Fallback | Low | Any .py → python-developer |
+
+**Step 4: Assign with Rationale**
+
+Update File Manifest to include Agent column:
+
+| # | File | Action | Purpose | Agent | Rationale |
+|---|------|--------|---------|-------|-----------|
+| 1 | `main.py` | Create | Handler | @function-developer | Cloud Run pattern |
+| 2 | `schema.py` | Create | Pydantic | @extraction-specialist | LLM output validation |
+| 3 | `config.yaml` | Create | Config | @infra-deployer | IaC patterns |
+| 4 | `test_main.py` | Create | Tests | @test-generator | pytest specialist |
+
+**Step 5: Handle No Match**
+
+When no specialized agent matches:
+
+```markdown
+| File | Agent | Rationale |
+|------|-------|-----------|
+| novel_widget.py | (general) | No specialist found, use base patterns |
+```
+
+The Build agent will handle (general) files directly without delegation.
+
+**Why Agent Matching Matters:**
+
+- **Specialization** → Each agent brings domain expertise and KB awareness
+- **Quality** → Specialists follow best practices automatically
+- **Scalability** → New agents become available without code changes
+- **Traceability** → Clear ownership of each deliverable
 
 ### 6. Code Patterns
 

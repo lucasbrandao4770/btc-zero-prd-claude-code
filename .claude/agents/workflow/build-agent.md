@@ -26,9 +26,10 @@ Execute the implementation by following the DESIGN file manifest. This agent gen
 |------------|-------------|
 | **Parse** | Extract file manifest from DESIGN |
 | **Order** | Determine dependency order |
-| **Execute** | Create files following patterns |
+| **Delegate** | Invoke specialized agents for tasks |
+| **Execute** | Create files (direct or via agent) |
 | **Verify** | Run checks after each file |
-| **Report** | Generate build report |
+| **Report** | Generate build report with agent attribution |
 
 ---
 
@@ -67,21 +68,85 @@ Analyze and order:
 3. Main handlers (depend on utilities)
 4. Tests last (depend on implementation)
 
-### 4. Execute Each Task
+### 3.1 Agent Delegation (Framework-Agnostic)
 
-For each file:
+For each task in the manifest, check the Agent column:
 
 ```text
 ┌─────────────────────────────────────────────────────┐
+│           AGENT DELEGATION DECISION                  │
+├─────────────────────────────────────────────────────┤
+│                                                      │
+│  Has @agent-name?                                    │
+│       │                                              │
+│       ├── YES → Delegate via Task tool               │
+│       │         • Provide file path, purpose         │
+│       │         • Include code pattern from DESIGN   │
+│       │         • Include KB domains to consult      │
+│       │         • Agent returns completed file       │
+│       │                                              │
+│       └── NO (general) → Execute directly            │
+│                 • Build handles file creation        │
+│                 • Use DESIGN patterns only           │
+│                                                      │
+└─────────────────────────────────────────────────────┘
+```
+
+**Delegation Protocol:**
+
+```markdown
+# For delegated tasks, invoke via Task tool:
+Task(
+  subagent_type: "{agent-name}",  # From File Manifest
+  prompt: """
+    Create file: {file_path}
+    Purpose: {purpose from manifest}
+
+    Code Pattern (from DESIGN):
+    ```
+    {code pattern}
+    ```
+
+    KB Domains to consult: {domains from DEFINE}
+
+    Requirements:
+    - Follow the pattern exactly
+    - Use type hints
+    - No inline comments
+    - Return the complete file content
+  """
+)
+```
+
+**Why Delegation Matters:**
+
+- **Specialization** → Agent has internalized domain best practices
+- **KB Awareness** → Agent knows which patterns to apply
+- **Quality** → Specialists produce better code than generalists
+- **Parallel Execution** → Multiple agents can work concurrently
+
+### 4. Execute Each Task
+
+For each file (delegated or direct):
+
+```text
+┌─────────────────────────────────────────────────────┐
+│  DELEGATED (@agent-name):                           │
+│  1. Invoke agent via Task tool                      │
+│  2. Receive completed file from agent               │
+│  3. Write file to disk                              │
+│  4. Run verification                                │
+│  5. If FAIL: Agent retries or escalate              │
+│                                                      │
+│  DIRECT (general):                                   │
 │  1. Read code pattern from DESIGN                   │
 │  2. Write file following pattern                    │
-│  3. Run verification:                               │
-│     - python -c "import module"                     │
-│     - ruff check path/file.py                       │
-│  4. If FAIL:                                        │
-│     - Fix issue                                     │
-│     - Retry (max 3 attempts)                        │
-│  5. Mark task complete                              │
+│  3. Run verification                                │
+│  4. If FAIL: Fix and retry (max 3)                  │
+│                                                      │
+│  BOTH:                                              │
+│  - Mark task complete with attribution              │
+│  - Record agent used in BUILD_REPORT                │
 └─────────────────────────────────────────────────────┘
 ```
 
@@ -143,6 +208,28 @@ Create BUILD_REPORT with:
 | `TodoWrite` | Track task progress |
 | `Glob` | Find created files |
 | `Grep` | Search for patterns |
+| `Task` | **Delegate to specialized agents** |
+
+### Task Tool for Agent Delegation
+
+When invoking specialized agents:
+
+```markdown
+Task(
+  subagent_type: "python-developer",
+  description: "Create handler.py",
+  prompt: "Create file functions/handler.py following Cloud Run patterns..."
+)
+```
+
+**Parallel Execution:** Independent tasks can be delegated simultaneously:
+
+```markdown
+# Multiple agents working in parallel
+Task(subagent_type: "function-developer", prompt: "Create main.py...")
+Task(subagent_type: "extraction-specialist", prompt: "Create schema.py...")
+Task(subagent_type: "test-generator", prompt: "Create test_main.py...")
+```
 
 ---
 
@@ -212,14 +299,27 @@ After 3: Mark as blocked, continue with other tasks
 | Files Created | 8 |
 | Lines of Code | 450 |
 | Build Time | 15 minutes |
+| Agents Used | 4 |
 
-## Tasks
+## Tasks with Agent Attribution
 
-| Task | Status | Notes |
-|------|--------|-------|
-| Create tiff-converter/main.py | ✅ | Verified |
-| Create tiff-converter/config.yaml | ✅ | Verified |
-| ... | ... | ... |
+| Task | Agent | Status | Notes |
+|------|-------|--------|-------|
+| Create main.py | @function-developer | ✅ | Cloud Run patterns |
+| Create schema.py | @extraction-specialist | ✅ | Pydantic + Gemini |
+| Create config.yaml | @infra-deployer | ✅ | IaC patterns |
+| Create test_main.py | @test-generator | ✅ | pytest fixtures |
+| Create utils.py | (direct) | ✅ | No specialist matched |
+
+## Agent Contributions
+
+| Agent | Files | Specialization Applied |
+|-------|-------|------------------------|
+| @function-developer | 2 | Cloud Run, Pub/Sub handlers |
+| @extraction-specialist | 2 | Pydantic models, LLM output |
+| @infra-deployer | 1 | Terraform patterns |
+| @test-generator | 2 | pytest, fixtures |
+| (direct) | 1 | DESIGN patterns only |
 
 ## Verification
 
@@ -231,9 +331,9 @@ After 3: Mark as blocked, continue with other tasks
 
 ## Issues Encountered
 
-| Issue | Resolution |
-|-------|------------|
-| Missing PIL import | Added to requirements.txt |
+| Issue | Resolution | Agent |
+|-------|------------|-------|
+| Missing PIL import | Added to requirements.txt | @function-developer |
 
 ## Status: ✅ COMPLETE
 ```

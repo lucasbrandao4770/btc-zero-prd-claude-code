@@ -24,30 +24,44 @@
 | **Lines of Code** | {N} |
 | **Build Time** | {Duration} |
 | **Tests Passing** | {X}/{Y} |
+| **Agents Used** | {N} |
 
 ---
 
-## Task Execution
+## Task Execution with Agent Attribution
 
-| # | Task | Status | Duration | Notes |
-|---|------|--------|----------|-------|
-| 1 | {Task description} | ✅ Complete | {Xm} | {Any notes} |
-| 2 | {Task description} | ✅ Complete | {Xm} | {Any notes} |
-| 3 | {Task description} | 🔄 In Progress | - | {Current state} |
-| 4 | {Task description} | ⏳ Pending | - | - |
-| 5 | {Task description} | ❌ Blocked | - | {Blocker} |
+| # | Task | Agent | Status | Duration | Notes |
+|---|------|-------|--------|----------|-------|
+| 1 | {Task description} | @{agent-name} | ✅ Complete | {Xm} | {Any notes} |
+| 2 | {Task description} | @{agent-name} | ✅ Complete | {Xm} | {Any notes} |
+| 3 | {Task description} | (direct) | 🔄 In Progress | - | {No specialist matched} |
+| 4 | {Task description} | @{agent-name} | ⏳ Pending | - | - |
 
 **Legend:** ✅ Complete | 🔄 In Progress | ⏳ Pending | ❌ Blocked
+
+**Agent Key:**
+- `@{agent-name}` = Delegated to specialist agent via Task tool
+- `(direct)` = Built directly by build-agent (no specialist matched)
+
+---
+
+## Agent Contributions
+
+| Agent | Files | Specialization Applied |
+|-------|-------|------------------------|
+| @{agent-1} | {N} | {What patterns/KB used} |
+| @{agent-2} | {N} | {What patterns/KB used} |
+| (direct) | {N} | DESIGN patterns only |
 
 ---
 
 ## Files Created
 
-| File | Lines | Verified | Notes |
-|------|-------|----------|-------|
-| `{path/to/file1.py}` | {N} | ✅ | {Any notes} |
-| `{path/to/file2.py}` | {N} | ✅ | {Any notes} |
-| `{path/to/config.yaml}` | {N} | ✅ | {Any notes} |
+| File | Lines | Agent | Verified | Notes |
+| ---- | ----- | ----- | -------- | ----- |
+| `{path/to/file1.py}` | {N} | @{agent-name} | ✅ | {Any notes} |
+| `{path/to/file2.py}` | {N} | @{agent-name} | ✅ | {Any notes} |
+| `{path/to/config.yaml}` | {N} | (direct) | ✅ | {Any notes} |
 
 ---
 

@@ -40,8 +40,14 @@ Transform vague ideas into validated approaches through collaborative dialogue. 
 ```markdown
 Read(.claude/CLAUDE.md)
 Read(.claude/sdd/templates/BRAINSTORM_TEMPLATE.md)
+Read(.claude/kb/_index.yaml)  # Available KB domains
 Explore recent commits, existing code patterns, project structure
 ```
+
+**Observe for Define Phase:**
+- Project structure → Note likely deployment locations (src/, functions/, gen/, deploy/)
+- KB domains → Which patterns might be relevant (pydantic, gcp, gemini, etc.)
+- Existing infrastructure → Any Terraform/Terragrunt patterns to follow
 
 ### 2. Understand the Idea
 

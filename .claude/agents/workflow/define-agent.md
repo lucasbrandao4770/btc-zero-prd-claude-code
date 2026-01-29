@@ -77,6 +77,48 @@ Extract these entities:
 | **Out of Scope** | "Not including...", "Deferred to...", "Excluded:" |
 | **Assumptions** | "Assuming that...", "We expect...", "If X then...", "Depends on..." |
 
+### 3.1 Gather Technical Context (REQUIRED)
+
+Ask these 3 essential questions to prevent misaligned implementations:
+
+**Question 1: Deployment Location**
+```markdown
+"Where should this feature live in the project?
+(a) src/ - Main application code
+(b) functions/ - Cloud Run functions (serverless)
+(c) gen/ - Code generation tools
+(d) deploy/ - Deployment scripts and IaC
+(e) Other - I'll specify the path"
+```
+
+**Question 2: KB Domain Patterns**
+```markdown
+"Which knowledge base domains should inform the design?
+(Select all that apply - reference .claude/kb/_index.yaml)
+[ ] pydantic - Data validation, LLM output parsing
+[ ] gcp - Cloud Run, Pub/Sub, GCS, BigQuery
+[ ] gemini - Document extraction, vision tasks
+[ ] langfuse - LLM observability
+[ ] terraform/terragrunt - Infrastructure as Code
+[ ] crewai - Multi-agent orchestration
+[ ] openrouter - LLM fallback provider
+[ ] None needed"
+```
+
+**Question 3: Infrastructure Impact**
+```markdown
+"Does this feature require infrastructure changes?
+(a) Yes - New GCP resources needed
+(b) Yes - Modify existing Terraform/Terragrunt
+(c) No - Uses existing infrastructure
+(d) Unsure - Analyze during Design phase"
+```
+
+**Why These 3 Questions Matter:**
+- **Location** → Prevents misplaced files, ensures correct project structure
+- **KB Domains** → Design phase pulls correct patterns and code examples
+- **IaC Impact** → Catches infrastructure needs early, triggers infra-deployer
+
 **Priority Classification (MoSCoW):**
 - **MUST** = MVP fails without this (non-negotiable)
 - **SHOULD** = Important, but workaround exists

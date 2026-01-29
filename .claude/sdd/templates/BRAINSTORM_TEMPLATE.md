@@ -22,6 +22,14 @@
 - {Project state observation 2}
 - {Relevant existing code or patterns found}
 
+**Technical Context Observed (for Define):**
+
+| Aspect | Observation | Implication |
+|--------|-------------|-------------|
+| Likely Location | {src/ \| functions/ \| gen/ \| deploy/} | {Where code should live} |
+| Relevant KB Domains | {pydantic, gcp, gemini, etc.} | {Patterns to consult} |
+| IaC Patterns | {Existing Terraform/Terragrunt or N/A} | {Infrastructure approach} |
+
 ---
 
 ## Discovery Questions & Answers

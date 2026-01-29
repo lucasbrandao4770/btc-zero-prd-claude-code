@@ -101,6 +101,7 @@ cp .claude/dev/templates/PROMPT_TEMPLATE.md \
 ```text
 .claude/dev/
 ├── _index.md                        # This documentation
+├── readme.md                        # Feature overview
 │
 ├── tasks/                           # Your PROMPT files (active work)
 │   └── PROMPT_*.md
@@ -111,11 +112,17 @@ cp .claude/dev/templates/PROMPT_TEMPLATE.md \
 ├── logs/                            # Execution logs
 │   └── LOG_*.md
 │
-└── templates/                       # Templates and examples
-    ├── PROMPT_TEMPLATE.md           # Blank template
-    ├── PROGRESS_TEMPLATE.md         # Progress file template
-    ├── PROMPT_EXAMPLE_FEATURE.md    # Example: Python utility
-    └── PROMPT_EXAMPLE_KB.md         # Example: KB domain
+├── templates/                       # Templates
+│   ├── PROMPT_TEMPLATE.md           # Blank template
+│   ├── PROGRESS_TEMPLATE.md         # Progress file template
+│   ├── PROMPT_EXAMPLE_FEATURE.md    # Example: Python utility
+│   └── PROMPT_EXAMPLE_KB.md         # Example: KB domain
+│
+└── examples/                        # Real-world examples
+    ├── README.md                    # Examples documentation
+    ├── PROMPT_*.md                  # Example PROMPT files
+    ├── PROGRESS_*.md                # Example PROGRESS files
+    └── LOG_*.md                     # Example LOG files
 ```
 
 ---
@@ -334,6 +341,7 @@ Reference agents with `@agent-name` in tasks:
 | `.claude/dev/templates/PROMPT_EXAMPLE_FEATURE.md` | Example: Python utility |
 | `.claude/dev/templates/PROMPT_EXAMPLE_KB.md` | Example: KB domain |
 | `.claude/dev/templates/PROGRESS_TEMPLATE.md` | Progress file template |
+| `.claude/dev/examples/` | Real-world examples from actual feature builds |
 
 ---
 

@@ -65,6 +65,9 @@ btc-zero-prd-claude-code/
 │   └── synthetic-invoice-gen/     # Synthetic test data generator
 │       └── src/invoice_gen/       # Invoice generation library
 │
+├── design/                        # Architecture design documents
+│   └── gcp-cloud-run-fncs.md      # Cloud Run functions v2 architecture
+│
 ├── notes/                         # Project meeting notes
 │   ├── 01-business-kickoff.md
 │   ├── 02-technical-architecture.md
@@ -74,17 +77,21 @@ btc-zero-prd-claude-code/
 │   ├── 06-autonomous-dataops.md
 │   └── summary-requirements.md    # Consolidated requirements
 │
+├── archive/                       # Historical versions
+│   ├── sdd-agent-spec-v4.2.zip    # Previous SDD specification
+│   └── dev-loop-v1.1.zip          # Previous Dev Loop version
+│
 ├── .claude/                       # Claude Code ecosystem
 │   ├── agents/                    # 40 specialized agents
-│   │   ├── ai-ml/                 # AI/ML specialists
-│   │   ├── aws/                   # AWS/cloud specialists
-│   │   ├── code-quality/          # Code review, testing
-│   │   ├── communication/         # Documentation, planning
-│   │   ├── data-engineering/      # Spark, Lakeflow, Medallion
-│   │   ├── dev/                   # Dev Loop agents
-│   │   ├── domain/                # Project-specific agents
-│   │   ├── exploration/           # Codebase exploration
-│   │   └── workflow/              # SDD pipeline agents
+│   │   ├── ai-ml/                 # AI/ML specialists (4)
+│   │   ├── aws/                   # AWS/cloud specialists (4)
+│   │   ├── code-quality/          # Code review, testing (6)
+│   │   ├── communication/         # Documentation, planning (3)
+│   │   ├── data-engineering/      # Spark, Lakeflow, Medallion (8)
+│   │   ├── dev/                   # Dev Loop agents (2)
+│   │   ├── domain/                # Project-specific agents (5)
+│   │   ├── exploration/           # Codebase exploration (2)
+│   │   └── workflow/              # SDD pipeline agents (6)
 │   │
 │   ├── commands/                  # 12 slash commands
 │   │   ├── core/                  # /memory, /sync-context
@@ -94,6 +101,7 @@ btc-zero-prd-claude-code/
 │   │   └── workflow/              # SDD commands
 │   │
 │   ├── kb/                        # Knowledge Base (8 domains)
+│   │   ├── _templates/            # KB domain templates
 │   │   ├── pydantic/
 │   │   ├── gcp/
 │   │   ├── gemini/
@@ -104,15 +112,18 @@ btc-zero-prd-claude-code/
 │   │   └── openrouter/
 │   │
 │   ├── sdd/                       # Spec-Driven Development
+│   │   ├── architecture/          # Architecture documents
 │   │   ├── features/              # Active DEFINE/DESIGN docs
 │   │   ├── reports/               # BUILD reports
 │   │   ├── archive/               # Shipped features
+│   │   ├── examples/              # Reference implementations
 │   │   └── templates/             # Document templates
 │   │
 │   └── dev/                       # Dev Loop (Level 2)
 │       ├── tasks/                 # PROMPT files
 │       ├── progress/              # Session recovery
 │       ├── logs/                  # Execution logs
+│       ├── examples/              # Reference PROMPT examples
 │       └── templates/             # PROMPT templates
 │
 └── .gitignore
@@ -331,8 +342,11 @@ In PROMPT.md files, reference agents with `@agent-name`:
 
 - **Requirements:** Start with [notes/summary-requirements.md](notes/summary-requirements.md)
 - **Architecture:** See [.claude/sdd/architecture/ARCHITECTURE.md](.claude/sdd/architecture/ARCHITECTURE.md)
+- **Cloud Run Design:** See [design/gcp-cloud-run-fncs.md](design/gcp-cloud-run-fncs.md)
 - **SDD Workflow:** See [.claude/sdd/_index.md](.claude/sdd/_index.md)
+- **SDD Examples:** See [.claude/sdd/examples/](.claude/sdd/examples/)
 - **Dev Loop:** See [.claude/dev/_index.md](.claude/dev/_index.md)
+- **Dev Examples:** See [.claude/dev/examples/](.claude/dev/examples/)
 - **Agents:** Browse [.claude/agents/](.claude/agents/)
 - **KB Index:** See [.claude/kb/_index.yaml](.claude/kb/_index.yaml)
 
@@ -342,4 +356,5 @@ In PROMPT.md files, reference agents with `@agent-name`:
 
 | Date | Changes |
 | ---- | ------- |
+| 2026-01-29 | Sync: Added design/, archive/, examples folders; updated agent counts per category |
 | 2026-01-29 | Initial CLAUDE.md created via /sync-context |

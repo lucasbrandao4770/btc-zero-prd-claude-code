@@ -75,14 +75,31 @@
 
 ## File Manifest
 
-| # | File | Action | Purpose | Dependencies |
-|---|------|--------|---------|--------------|
-| 1 | `{path/to/file.py}` | Create | {Purpose} | None |
-| 2 | `{path/to/config.yaml}` | Create | {Purpose} | None |
-| 3 | `{path/to/handler.py}` | Create | {Purpose} | 1, 2 |
-| 4 | `{path/to/test.py}` | Create | {Purpose} | 3 |
+| # | File | Action | Purpose | Agent | Dependencies |
+|---|------|--------|---------|-------|--------------|
+| 1 | `{path/to/file.py}` | Create | {Purpose} | @{agent-name} | None |
+| 2 | `{path/to/config.yaml}` | Create | {Purpose} | @{agent-name} | None |
+| 3 | `{path/to/handler.py}` | Create | {Purpose} | @{agent-name} | 1, 2 |
+| 4 | `{path/to/test.py}` | Create | {Purpose} | @{agent-name} | 3 |
 
 **Total Files:** {N}
+
+---
+
+## Agent Assignment Rationale
+
+> Agents discovered from `.claude/agents/` - Build phase invokes matched specialists.
+
+| Agent | Files Assigned | Why This Agent |
+|-------|----------------|----------------|
+| @{agent-1} | 1, 3 | {Specialization match: e.g., "Cloud Run patterns"} |
+| @{agent-2} | 2 | {Specialization match: e.g., "Pydantic + LLM output"} |
+| @{agent-3} | 4 | {Specialization match: e.g., "pytest fixtures"} |
+| (general) | {if any} | {No specialist found - Build handles directly} |
+
+**Agent Discovery:**
+- Scanned: `.claude/agents/**/*.md`
+- Matched by: File type, purpose keywords, path patterns, KB domains
 
 ---
 
