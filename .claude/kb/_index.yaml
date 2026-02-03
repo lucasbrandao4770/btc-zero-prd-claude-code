@@ -2,7 +2,7 @@
 # Machine-readable registry for KB domains
 
 version: "1.0"
-last_updated: "2026-01-28"
+last_updated: "2026-02-02"
 
 # File Size Limits (SINGLE SOURCE OF TRUTH)
 limits:
@@ -345,3 +345,55 @@ domains:
         path: patterns/provider-routing.md
       - name: langchain-integration
         path: patterns/langchain-integration.md
+
+  sdd:
+    name: Spec-Driven Development
+    description: Software development methodology where specifications generate code. Covers theory, patterns, and implementations (Spec-Kit, AgentSpec)
+    path: sdd/
+    mcp_validated: "2026-02-02"
+    entry_points:
+      index: index.md
+      quick_reference: quick-reference.md
+    concepts:
+      - name: what-is-sdd
+        path: concepts/what-is-sdd.md
+        confidence: 0.95
+      - name: specs-vs-code
+        path: concepts/specs-vs-code.md
+        confidence: 0.95
+      - name: sdd-lifecycle
+        path: concepts/sdd-lifecycle.md
+        confidence: 0.95
+      - name: terminology
+        path: concepts/terminology.md
+        confidence: 0.95
+    patterns:
+      - name: brainstorm-pattern
+        path: patterns/brainstorm-pattern.md
+      - name: define-pattern
+        path: patterns/define-pattern.md
+      - name: design-pattern
+        path: patterns/design-pattern.md
+      - name: build-pattern
+        path: patterns/build-pattern.md
+      - name: ship-pattern
+        path: patterns/ship-pattern.md
+    implementations:
+      - name: spec-kit
+        path: implementations/spec-kit.md
+      - name: agentspec
+        path: implementations/agentspec.md
+      - name: comparison
+        path: implementations/comparison.md
+    guides:
+      - name: getting-started
+        path: guides/getting-started.md
+      - name: migrating-to-sdd
+        path: guides/migrating-to-sdd.md
+      - name: advanced-sdd
+        path: guides/advanced-sdd.md
+    examples:
+      - name: invoice-pipeline
+        path: examples/invoice-pipeline.md
+      - name: feature-examples
+        path: examples/feature-examples.md

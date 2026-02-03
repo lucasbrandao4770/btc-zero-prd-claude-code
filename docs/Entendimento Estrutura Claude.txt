@@ -1,0 +1,239 @@
+🗺️ Guia Completo da sua Pasta .claude — Do Zero ao Projeto
+1. O MAPA GERAL — Como tudo se conecta
+Pense na sua pasta .claude como uma empresa de software em miniatura:
+
+
+.claude/
+├── commands/     ← 📋 Os "formulários" que você preenche para iniciar trabalho
+├── agents/       ← 👥 Os "especialistas" que executam o trabalho
+├── kb/           ← 📚 A "biblioteca" de conhecimento técnico
+├── sdd/          ← 🏗️ A "esteira de produção" para projetos grandes
+├── dev/          ← ⚡ A "bancada rápida" para tarefas menores
+└── settings.local.json  ← ⚙️ Configurações do projeto
+A lógica é simples: Você dá um comando → O comando aciona agentes → Os agentes consultam a KB → O resultado é código/documentação.
+
+2. OS COMANDOS (commands/) — Seu Ponto de Entrada
+Os comandos são slash commands que você digita no chat. São divididos em 4 categorias:
+
+🔵 Comandos Core (Manutenção)
+Comando	O que faz	Quando usar
+/sync-context	Analisa seu projeto e cria um CLAUDE.md com padrões, convenções e estrutura	Primeiro comando em qualquer projeto novo
+/memory	Salva insights da sessão atual para uso futuro	Quando aprender algo importante durante o trabalho
+/readme-maker	Gera um README.md completo analisando o código	Quando precisar documentar o projeto
+🟢 Comandos de Workflow/SDD (Projetos Grandes)
+Estes formam uma esteira de 5 fases — cada um é uma fase:
+
+#	Comando	Fase	O que faz
+0	/brainstorm	Explorar	Conversa aberta para explorar uma ideia vaga
+1	/define	Definir	Captura requisitos formais (o quê e por quê)
+2	/design	Projetar	Cria arquitetura técnica (como)
+3	/build	Construir	Implementa o código de verdade
+4	/ship	Entregar	Arquiva com lições aprendidas
+*	/iterate	Qualquer	Atualiza documentos quando algo muda
+🟡 Comando Dev (Tarefas Rápidas)
+Comando	O que faz
+/dev "descrição"	Cria um PROMPT estruturado fazendo perguntas antes de executar
+/dev tasks/PROMPT_*.md	Executa um PROMPT já criado
+🔴 Comando Review
+Comando	O que faz
+/review	Faz revisão completa do código (segurança, qualidade, performance)
+3. OS AGENTES (agents/) — Seu Time de Especialistas
+Você tem 44 agentes organizados em 8 equipes. Cada agente é um arquivo .md que define a personalidade, expertise e regras de um especialista. Eles são acionados automaticamente quando a tarefa precisa deles.
+
+Como funciona na prática:
+Quando você roda /build, o sistema lê o DESIGN e decide: "Preciso do python-developer para o código, do test-generator para testes e do infra-deployer para infraestrutura." Cada agente sabe exatamente como agir.
+
+As 8 equipes:
+Equipe	Agentes	Especialidade
+ai-ml/	llm-specialist, genai-architect, ai-prompt-specialist, ai-data-engineer	IA, prompts, arquitetura GenAI
+aws/	lambda-builder, aws-lambda-architect, aws-deployer, ci-cd-specialist	Lambda, SAM, CI/CD, deploy
+code-quality/	python-developer, code-reviewer, code-cleaner, code-documenter, test-generator, dual-reviewer	Qualidade, testes, limpeza
+communication/	adaptive-explainer, meeting-analyst, the-planner	Explicar, analisar reuniões, planejar
+data-engineering/	spark-specialist, spark-troubleshooter, spark-streaming-architect, spark-performance-analyzer, lakeflow-* (4), medallion-architect	Spark, Lakeflow, Medallion
+dev/	prompt-crafter, dev-loop-executor	Motor do /dev
+domain/	dataops-builder, extraction-specialist, function-developer, infra-deployer, pipeline-architect	Domínios específicos do projeto
+exploration/	codebase-explorer, kb-architect	Explorar código e criar KB
+workflow/	brainstorm-agent, define-agent, design-agent, build-agent, iterate-agent, ship-agent	Motor do SDD
+4. A KNOWLEDGE BASE (kb/) — A Biblioteca dos Agentes
+A KB é onde fica o conhecimento técnico validado que os agentes consultam antes de agir. É como se fosse o "manual de referência" de cada tecnologia.
+
+Estrutura de cada domínio:
+
+kb/terraform/
+├── index.md              ← Visão geral do domínio
+├── quick-reference.md    ← Cola rápida (comandos, sintaxe)
+├── concepts/             ← Conceitos fundamentais (6 arquivos)
+│   ├── modules.md
+│   ├── providers.md
+│   ├── resources.md
+│   ├── state.md
+│   ├── variables.md
+│   └── workspaces.md
+└── patterns/             ← Padrões de uso (receitas prontas)
+    ├── bigquery-module.md
+    ├── cloud-run-module.md
+    └── ...
+Os 8 domínios que você já tem:
+Domínio	Conceitos	Padrões	Uso
+pydantic	4	4	Validação de dados, schemas LLM
+gcp	6	5	Cloud Run, Pub/Sub, GCS, BigQuery
+gemini	6	6	Extração com IA, prompts, visão
+langfuse	6	6	Observabilidade de LLMs
+openrouter	5	5	Roteamento de modelos, fallback
+terraform	6	6	Infraestrutura como código
+terragrunt	6	5	Multi-ambiente, DRY
+crewai	6	6	Orquestração multi-agente
+Como criar um novo domínio de KB:
+
+/knowledge:create-kb "Redis"
+Isso aciona o kb-architect que cria toda a estrutura de pastas, conceitos e padrões para Redis.
+
+5. O SDD (sdd/) — Esteira para Projetos Grandes
+O Spec-Driven Development é a esteira completa. Pense nele como uma linha de produção onde cada fase gera um documento que alimenta a próxima.
+
+O fluxo completo passo a passo:
+
+PASSO 1: /brainstorm "Quero um sistema de notificações"
+         → Gera: .claude/sdd/features/BRAINSTORM_NOTIFICATIONS.md
+         
+PASSO 2: /define .claude/sdd/features/BRAINSTORM_NOTIFICATIONS.md
+         → Gera: .claude/sdd/features/DEFINE_NOTIFICATIONS.md
+         
+PASSO 3: /design .claude/sdd/features/DEFINE_NOTIFICATIONS.md
+         → Gera: .claude/sdd/features/DESIGN_NOTIFICATIONS.md
+         
+PASSO 4: /build .claude/sdd/features/DESIGN_NOTIFICATIONS.md
+         → Gera: Código + .claude/sdd/reports/BUILD_REPORT_NOTIFICATIONS.md
+         
+PASSO 5: /ship
+         → Gera: .claude/sdd/archive/NOTIFICATIONS/SHIPPED_2026-02-03.md
+Você já tem 6 features entregues no arquivo:
+INVOICE_PIPELINE — Pipeline de extração de faturas
+GCS_UPLOAD — Upload para Google Cloud Storage
+SMOKE_TEST — Testes de fumaça
+LANGFUSE_OBSERVABILITY — Observabilidade
+TERRAFORM_TERRAGRUNT_INFRA — Infraestrutura
+DATAPLATFORM_CLI — CLI para plataforma de dados
+E 3 features em brainstorm (esperando avançar nas fases).
+
+6. O DEV LOOP (dev/) — Bancada para Tarefas Rápidas
+O Dev Loop é para quando o SDD seria "matar formiga com canhão". É mais leve, mas ainda estruturado.
+
+Fluxo:
+
+/dev "Criar um parser de datas"
+  ↓
+Prompt Crafter faz perguntas:
+  - "Que formatos de data?"
+  - "Tem testes existentes?"
+  - "Qual padrão seguir?"
+  ↓
+Gera: .claude/dev/tasks/PROMPT_DATE_PARSER.md
+  ↓
+Executor roda o PROMPT com:
+  - Verificação automática
+  - Prioridade (🔴 crítico → 🟡 core → 🟢 polish)
+  - Circuit breaker (para se falhar 3x)
+  ↓
+Gera: .claude/dev/logs/LOG_DATE_PARSER.md (histórico)
+       .claude/dev/progress/PROGRESS_DATE_PARSER.md (se interrompido)
+Recursos especiais:
+--resume: Retoma trabalho interrompido sem perder contexto
+--dry-run: Valida sem executar (simula)
+--mode afk: Executa sem fazer perguntas
+@agent-name: Delega partes para agentes específicos
+7. O MCP (Model Context Protocol) — Superpoderes Externos
+Os MCPs são servidores externos que dão aos agentes acesso a informações em tempo real. Você tem 2 configurados:
+
+MCP	O que faz	Para que serve
+Context7	Busca documentação técnica atualizada de bibliotecas	Quando o agente precisa da doc mais recente de qualquer lib
+Ref	Busca referências e exemplos de código	Para validar padrões contra código real
+Como os agentes usam MCP:
+Os agentes têm um sistema de validação dupla:
+
+Primeiro consultam a KB local (offline, instantâneo)
+Depois consultam o MCP (online, atualizado)
+Se KB e MCP concordam → confiança alta (0.95)
+Se discordam → investigam antes de agir
+Se só um tem → confiança média (0.75-0.85)
+8. QUAL CAMINHO USAR PARA CADA TIPO DE PROJETO?
+🟢 Tarefas Pequenas → Dev Loop (/dev)
+Exemplos: Criar uma função utilitária, adicionar um parser, criar testes, construir um domínio de KB
+
+
+# Basta digitar:
+/dev "Criar um validador de CPF em Python"
+🟡 Features Médias → SDD Parcial (Define → Build)
+Exemplos: Adicionar endpoint de API, criar integração com serviço externo
+
+
+# Pula o brainstorm, vai direto:
+/define "Adicionar endpoint de autenticação OAuth2"
+# Depois:
+/design .claude/sdd/features/DEFINE_OAUTH2_AUTH.md
+/build .claude/sdd/features/DESIGN_OAUTH2_AUTH.md
+/ship
+🔴 Projetos Grandes → SDD Completo (5 fases)
+Exemplos: Pipeline de dados completo, sistema novo, migração de arquitetura
+
+
+# Começa com brainstorm:
+/brainstorm "Quero migrar de monolito para microserviços"
+# Segue todas as 5 fases...
+📚 Criar Conhecimento → KB (/knowledge:create-kb)
+Exemplos: Aprender tecnologia nova, documentar padrões do time
+
+
+/knowledge:create-kb "FastAPI"
+9. FLUXO LINEAR PARA UM LEIGO COMEÇAR AGORA
+Passo 1: Entenda onde você está
+
+# Veja a estrutura do seu projeto
+# (o Claude já consegue fazer isso sozinho)
+Passo 2: Sincronize o contexto (faça isso em todo projeto novo)
+
+/sync-context
+Isso cria um CLAUDE.md que ajuda o Claude a entender seu projeto.
+
+Passo 3: Escolha o caminho certo
+Ideia vaga? → /brainstorm "minha ideia"
+Sabe o que quer? → /define "o que quero construir"
+Tarefa simples? → /dev "criar tal coisa"
+Passo 4: Siga o fluxo
+Cada comando te guia automaticamente. Ele gera documentos que alimentam o próximo passo. Você nunca precisa criar arquivos manualmente.
+
+Passo 5: Revise antes de entregar
+
+/review
+Passo 6: Salve o que aprendeu
+
+/memory
+10. ADAPTANDO PARA PROJETOS DE ESCOPOS DIFERENTES
+📱 App Web/Mobile (React, Next.js, Flutter)
+Copie a pasta .claude para o novo projeto
+Rode /sync-context para mapear o projeto
+Crie KBs específicas: /knowledge:create-kb "React", /knowledge:create-kb "Next.js"
+Use /brainstorm para features grandes, /dev para componentes
+🔧 API Backend (FastAPI, Django, Express)
+Mesma base, crie KB: /knowledge:create-kb "FastAPI"
+Os agentes python-developer, code-reviewer e test-generator já estão prontos
+Use /define → /design → /build para cada endpoint
+📊 Data Engineering (Spark, Airflow, dbt)
+Você já tem KBs para Spark, Lakeflow, GCP — tudo pronto!
+Os agentes spark-specialist, medallion-architect e lakeflow-* já existem
+Use o SDD completo para pipelines
+🤖 Projeto de IA/LLM (RAG, chatbot, extração)
+KBs de Gemini, LangFuse, Pydantic, OpenRouter já existem
+Agentes llm-specialist, genai-architect, extraction-specialist estão prontos
+Use /brainstorm para explorar a abordagem
+🏗️ Infraestrutura (Terraform, K8s, CI/CD)
+KBs de Terraform e Terragrunt já existem
+Agentes infra-deployer, ci-cd-specialist estão prontos
+Use o SDD para cada módulo de infra
+★ Insight ─────────────────────────────────────
+
+O grande diferencial desta estrutura:
+
+Ela é portável — Copie a pasta .claude para qualquer projeto e o framework funciona. Os agentes e KBs são reutilizáveis.
+Ela escala — Uma tarefa de 5 minutos (/dev) usa o mesmo framework que um projeto de 5 meses (/brainstorm → /ship). Você só escolhe a "intensidade".
+Ela acumula inteligência — Cada KB criada, cada feature arquivada no SDD, cada /memory salvo torna o sistema mais inteligente para o próximo projeto. É um flywheel de conhecimento.
