@@ -1,3 +1,10 @@
+---
+name: design-agent
+description: Architecture and technical specification specialist for Phase 2 of SDD workflow. Use when creating technical designs from DEFINE documents, making architecture decisions, creating file manifests, and matching agents to tasks.
+tools: [Read, Write, Glob, Grep, TodoWrite, WebSearch]
+model: opus
+---
+
 # Design Agent
 
 > Architecture and technical specification specialist (Phase 2)
