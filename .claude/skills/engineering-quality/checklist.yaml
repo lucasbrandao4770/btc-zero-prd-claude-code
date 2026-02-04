@@ -1,0 +1,256 @@
+# Engineering Quality Checklist
+# 26 questions organized into 10 categories
+# Used by validation gates and planning phases
+#
+# Each question should be answered before marking a phase complete.
+# Severity: critical (blocker), high (should address), medium (consider), low (nice to have)
+
+version: "1.0"
+total_questions: 26
+
+categories:
+  - id: impact-analysis
+    name: Impact Analysis
+    description: Understand what changes and what might break
+    questions:
+      - id: Q1
+        question: Which files will be affected?
+        severity: critical
+        gate: G2  # Strategic phase
+        guidance: List all files to be created, modified, or deleted
+
+      - id: Q2
+        question: Will this break existing references/integrations?
+        severity: critical
+        gate: G2
+        guidance: Check imports, exports, API contracts, and configuration dependencies
+
+      - id: Q3
+        question: What downstream systems depend on changed components?
+        severity: high
+        gate: G2
+        guidance: Identify consumers, webhooks, scheduled jobs, and external integrations
+
+  - id: integration
+    name: Integration
+    description: Ensure changes fit existing architecture
+    questions:
+      - id: Q4
+        question: How does this integrate with existing folder structure?
+        severity: high
+        gate: G2
+        guidance: Follow established directory conventions
+
+      - id: Q5
+        question: Does this follow existing naming conventions?
+        severity: medium
+        gate: G3  # Tactical phase
+        guidance: Match file names, class names, function names to existing patterns
+
+      - id: Q6
+        question: Are new patterns consistent with established patterns?
+        severity: high
+        gate: G3
+        guidance: Don't introduce conflicting architectural patterns
+
+  - id: cleanup
+    name: Cleanup
+    description: Leave the codebase better than you found it
+    questions:
+      - id: Q7
+        question: Will I need to clean up afterwards?
+        severity: medium
+        gate: G4  # Operational phase
+        guidance: Identify temporary files, stubs, and scaffolding to remove
+
+      - id: Q8
+        question: Am I leaving a mess behind?
+        severity: high
+        gate: G7  # Plan completion
+        guidance: Remove dead code, outdated comments, unused imports
+
+      - id: Q9
+        question: Are there outdated artifacts that should be removed?
+        severity: medium
+        gate: G7
+        guidance: Archive or delete deprecated files, old documentation
+
+  - id: quality
+    name: Quality
+    description: Maintain code quality standards
+    questions:
+      - id: Q10
+        question: How will this affect system performance?
+        severity: medium
+        gate: G3
+        guidance: Consider memory, CPU, network, and storage implications
+
+      - id: Q11
+        question: Are best practices being followed?
+        severity: high
+        gate: G4
+        guidance: Follow language-specific best practices, design patterns
+
+      - id: Q12
+        question: What about code smells? Did I validate what I created?
+        severity: high
+        gate: G6  # Sandbox chunk completion
+        guidance: Run linters, formatters, and code quality tools
+
+  - id: scalability
+    name: Scalability
+    description: Design for growth
+    questions:
+      - id: Q13
+        question: Is the approach scalable for future improvements?
+        severity: medium
+        gate: G3
+        guidance: Avoid hardcoded limits, design for extension
+
+      - id: Q14
+        question: Is it flexible enough for changing requirements?
+        severity: medium
+        gate: G3
+        guidance: Use configuration over hardcoding, support variation points
+
+  - id: testing
+    name: Testing
+    description: Ensure quality through verification
+    questions:
+      - id: Q15
+        question: What about testing? Are test suites planned?
+        severity: critical
+        gate: G2
+        guidance: Define which tests to write - unit, integration, e2e
+
+      - id: Q16
+        question: What coverage is expected?
+        severity: high
+        gate: G4
+        guidance: Set concrete coverage targets (e.g., 80% for business logic)
+
+      - id: Q17
+        question: Are edge cases considered?
+        severity: high
+        gate: G4
+        guidance: Document boundary conditions, error scenarios, empty states
+
+  - id: dependencies
+    name: Dependencies
+    description: Manage external requirements
+    questions:
+      - id: Q18
+        question: Which dependencies and external services are involved?
+        severity: high
+        gate: G2
+        guidance: List all required packages, APIs, databases, services
+
+      - id: Q19
+        question: Are versions specified?
+        severity: high
+        gate: G4
+        guidance: Pin dependency versions for reproducibility
+
+      - id: Q20
+        question: Are there licensing concerns?
+        severity: medium
+        gate: G2
+        guidance: Check license compatibility for any new dependencies
+
+  - id: resources
+    name: Resources
+    description: Leverage available tools and capabilities
+    questions:
+      - id: Q21
+        question: Am I accounting for all available resources (agents, skills, KBs)?
+        severity: high
+        gate: G3
+        guidance: Consult catalogs - agents, skills, KBs, MCPs
+
+      - id: Q22
+        question: Am I reinventing the wheel?
+        severity: high
+        gate: G2
+        guidance: Search for existing solutions before building new
+
+      - id: Q23
+        question: Are available libraries being leveraged?
+        severity: medium
+        gate: G4
+        guidance: Use established libraries over custom implementations
+
+  - id: research
+    name: Research
+    description: Ground decisions in evidence
+    questions:
+      - id: Q24
+        question: Did I properly research before implementing?
+        severity: high
+        gate: G3
+        guidance: Use web search, Context7, Exa before writing code
+
+      - id: Q25
+        question: Were MCPs consulted for validation?
+        severity: high
+        gate: G4
+        guidance: Context7 for library docs, Exa for patterns
+
+  - id: propagation
+    name: Propagation
+    description: Ensure standards apply to all work
+    questions:
+      - id: Q26
+        question: Will workers (subagents) also follow these standards?
+        severity: critical
+        gate: G5  # HANDOFF generation
+        guidance: Include engineering practices in worker bootup instructions
+
+# Gate mappings for quick lookup
+gate_questions:
+  G1:  # Plan Chain Creation
+    - []  # No specific questions, validates chain structure
+  G2:  # Strategic Phase
+    - Q1
+    - Q2
+    - Q3
+    - Q4
+    - Q15
+    - Q18
+    - Q20
+    - Q22
+  G3:  # Tactical Phase
+    - Q5
+    - Q6
+    - Q10
+    - Q13
+    - Q14
+    - Q21
+    - Q24
+  G4:  # Operational Phase
+    - Q7
+    - Q11
+    - Q16
+    - Q17
+    - Q19
+    - Q23
+    - Q25
+  G5:  # HANDOFF Generation
+    - Q26
+  G6:  # Sandbox Chunk Completion
+    - Q12
+  G7:  # Plan Completion
+    - Q8
+    - Q9
+
+# Validation scoring
+scoring:
+  critical_failed: "BLOCKED - Must address before proceeding"
+  high_failed: "WARNING - Should address before proceeding"
+  medium_failed: "NOTICE - Consider addressing"
+  low_failed: "INFO - Nice to have"
+
+  pass_threshold:
+    critical: 100  # All critical questions must pass
+    high: 80       # 80% of high questions must pass
+    medium: 50     # 50% of medium questions should pass
+    low: 0         # Low questions are optional
