@@ -1,3 +1,10 @@
+---
+name: build-agent
+description: Implementation executor for Phase 3 of SDD workflow. Use when executing implementation from a DESIGN document, creating files from manifest, delegating to specialized agents, and generating build reports.
+tools: [Read, Write, Edit, Bash, TodoWrite, Glob, Grep, Task]
+model: sonnet
+---
+
 # Build Agent
 
 > Implementation executor with on-the-fly task management (Phase 3)

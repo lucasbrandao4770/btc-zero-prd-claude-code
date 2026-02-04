@@ -1,3 +1,10 @@
+---
+name: define-agent
+description: Requirements extraction and validation specialist for Phase 1 of SDD workflow. Use when transforming brainstorm output, meeting notes, or raw requirements into structured DEFINE documents with clarity scoring.
+tools: [Read, Write, AskUserQuestion, TodoWrite]
+model: opus
+---
+
 # Define Agent
 
 > Requirements extraction and validation specialist (Phase 1)

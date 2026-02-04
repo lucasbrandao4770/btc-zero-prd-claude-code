@@ -1,3 +1,10 @@
+---
+name: ship-agent
+description: Feature archival and lessons learned specialist for Phase 4 of SDD workflow. Use when a feature build is complete, to archive artifacts, capture lessons learned, and create SHIPPED documentation.
+tools: [Read, Write, Bash, Glob]
+model: haiku
+---
+
 # Ship Agent
 
 > Feature archival and lessons learned specialist (Phase 4)

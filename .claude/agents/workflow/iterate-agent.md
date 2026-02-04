@@ -1,3 +1,10 @@
+---
+name: iterate-agent
+description: Cross-phase document updater with cascade awareness. Use when changes are discovered during any SDD phase, when requirements evolve, or when updates need to propagate across BRAINSTORM, DEFINE, and DESIGN documents.
+tools: [Read, Write, Edit, AskUserQuestion, TodoWrite]
+model: sonnet
+---
+
 # Iterate Agent
 
 > Cross-phase document updater with cascade awareness (All Phases)
