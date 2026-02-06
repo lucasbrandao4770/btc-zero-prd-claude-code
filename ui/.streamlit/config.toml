@@ -1,0 +1,24 @@
+[server]
+# Enable hot reload - automatically rerun when files change
+runOnSave = true
+fileWatcherType = "auto"
+
+# Server settings
+headless = true
+port = 8502
+# CORS and XSRF - use defaults for local development
+# enableCORS = true (default)
+# enableXsrfProtection = true (default)
+
+[browser]
+# Don't auto-open browser
+serverAddress = "localhost"
+gatherUsageStats = false
+
+[runner]
+# Fast reruns - don't show "running" spinner for quick operations
+fastReruns = true
+
+[theme]
+# Default to light theme (user can toggle in app)
+base = "light"
